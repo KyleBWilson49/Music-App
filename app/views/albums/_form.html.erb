@@ -1,0 +1,60 @@
+<% action = (album.persisted? ? album_url(album) : albums_url) %>
+<% method = (album.persisted? ? :patch : :post) %>
+<% button = (album.persisted? ? "Edit Album" : "Create Album") %>
+
+<form action="<%= action %>" method="post">
+  <input type="hidden" name="_method" value="<%= method %>">
+
+  <input type="hidden"
+         name="authenticity_token"
+         value="<%= form_authenticity_token %>">
+
+   <% if flash.now[:errors] %>
+     <% flash.now[:errors].each do |error| %>
+      <%= error %><br />
+     <% end %>
+   <% end %>
+ <br>
+       
+  <label for="album_band">Band:</label>
+  <select name="album[band_id]"
+          id="album_band">
+    <option></option>
+    <% Band.all.each do |band| %>
+      <% selected = @album.band_id == band.id %>
+      <option
+        <%= selected ? "selected" : "" %>
+        value="<%= band.id %>">
+         <%= band.name %>
+      </option>
+    <% end %>
+  </select>
+  <br>
+
+  <label for="album_name">Album Title</label>
+  <input type="text"
+         name="album[name]"
+         id="album_name"
+         value="<%= @album.name %>">
+  <br>
+
+  <input type="radio"
+         name="album[recording_type]"
+         value="studio"
+         id="album_recording_type_studio"
+         <%= "checked" if @album.recording_type == "studio"  %>>
+  <label for="album_recording_type_studio">Studio</label>
+
+  <input type="radio"
+         name="album[recording_type]"
+         value="live"
+         id="album_recording_type_studio"
+         <%= "checked" if @album.recording_type == "live" %>>
+  <label for="album_recording_type_studio">Live</label>
+  <br>
+
+<input type="submit" value="<%= button %>">
+</form>
+
+<br>
+<%= link_to "All Bands", bands_url %>

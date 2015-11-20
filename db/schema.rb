@@ -11,7 +11,46 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151119060359) do
+ActiveRecord::Schema.define(version: 20151120005201) do
+
+  create_table "albums", force: :cascade do |t|
+    t.text     "name",           null: false
+    t.integer  "band_id",        null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.text     "recording_type"
+  end
+
+  add_index "albums", ["band_id"], name: "index_albums_on_band_id"
+
+  create_table "bands", force: :cascade do |t|
+    t.text     "name",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "notes", force: :cascade do |t|
+    t.text     "note_text",  null: false
+    t.integer  "user_id",    null: false
+    t.integer  "track_id",   null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "notes", ["track_id"], name: "index_notes_on_track_id"
+  add_index "notes", ["user_id"], name: "index_notes_on_user_id"
+
+  create_table "tracks", force: :cascade do |t|
+    t.integer  "album_id",   null: false
+    t.text     "name",       null: false
+    t.integer  "track_num",  null: false
+    t.text     "lyrics"
+    t.text     "track_type", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "tracks", ["album_id"], name: "index_tracks_on_album_id"
 
   create_table "users", force: :cascade do |t|
     t.text     "email",           null: false
