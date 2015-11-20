@@ -8,6 +8,7 @@
 #  session_token   :text             not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
+#  activated       :boolean          default(FALSE)
 #
 
 require 'test_helper'
